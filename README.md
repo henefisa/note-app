@@ -1,5 +1,5 @@
 # react-electron-template
-Clone this project
+Fast setup a react + electron project
 ## Installation
 Clone this repository
 ```bash
