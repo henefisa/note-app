@@ -1,6 +1,6 @@
 const electron = require("electron");
-
 const app = electron.app;
+const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const url = require("url");
@@ -10,6 +10,12 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    transparent: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   const startUrl =
@@ -19,6 +25,7 @@ function createWindow() {
       protocol: "file:",
       slashes: true,
     });
+  Menu.setApplicationMenu(null);
   mainWindow.loadURL(startUrl);
   mainWindow.on("closed", function () {
     mainWindow = null;

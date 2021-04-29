@@ -22,6 +22,14 @@ module.exports = (env, argv) => {
               loader: "css-loader",
             },
             {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [require("tailwindcss"), require("autoprefixer")],
+                },
+              },
+            },
+            {
               loader: "less-loader",
             },
           ],
@@ -40,6 +48,7 @@ module.exports = (env, argv) => {
       path: path.resolve("dist"),
       publicPath: "",
       filename: "bundle.[fullhash:6].js",
+      clean: true,
       environment: {
         arrowFunction: false,
         bigIntLiteral: false,
