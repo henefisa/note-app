@@ -44,8 +44,8 @@ const Dropdown: React.FC<DropdownProps> = ({ items, children }) => {
     const isVisible =
       rect.top > 0 &&
       rect.left > 0 &&
-      rect.top + rect.height < window.outerHeight &&
-      rect.left + rect.width < window.outerWidth;
+      rect.top + rect.height < document.documentElement.clientHeight &&
+      rect.left + rect.width < document.documentElement.clientWidth;
 
     if (!isVisible) {
       dropdownMenuRef.current.classList.add("dropdown__menu--reverse");

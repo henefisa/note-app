@@ -10,11 +10,13 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    transparent: true,
-    resizable: false,
-    frame: false,
+    // transparent: true,
+    // resizable: false,
+    // frame: false,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
     },
   });
 
@@ -25,7 +27,7 @@ function createWindow() {
       protocol: "file:",
       slashes: true,
     });
-  Menu.setApplicationMenu(null);
+  // Menu.setApplicationMenu(null);
   mainWindow.loadURL(startUrl);
   mainWindow.on("closed", function () {
     mainWindow = null;

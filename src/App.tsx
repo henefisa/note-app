@@ -1,13 +1,10 @@
-import { PlusOutlined } from "@ant-design/icons";
 import React from "react";
-import Button from "./components/Button/Button";
-import Space from "./components/Space/Space";
-import TitleBar from "./components/TitleBar/TitleBar";
+import HomePage from "./pages/HomePage/HomePage";
 
 const App: React.FC = () => {
   return (
     <div className="app">
-      <TitleBar />
+      <HomePage />
     </div>
   );
 };

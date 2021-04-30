@@ -10,6 +10,7 @@ interface ButtonProps {
   className?: string;
   style?: React.CSSProperties;
   ghost?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,7 +19,8 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   className,
   style,
-  ghost
+  ghost,
+  onClick,
 }) => {
   const isDefault = type === "default";
 
@@ -31,6 +33,7 @@ const Button: React.FC<ButtonProps> = ({
         className
       )}
       style={style}
+      onClick={onClick}
     >
       {icon && <span className="btn__icon">{icon}</span>}
       <span className="btn__content">{children}</span>

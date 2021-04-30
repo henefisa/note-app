@@ -1,0 +1,20 @@
+.search {
+  @apply bg-white flex items-center rounded shadow transition duration-300;
+
+  &:focus-within {
+    @apply ring-2;
+    .search__icon {
+      @apply text-blue-500;
+    }
+  }
+
+  &__icon {
+    @apply p-2 w-10 h-10 flex items-center justify-center;
+  }
+  &__input {
+    @apply w-full py-2 px-4 text-gray-700 leading-tight h-full;
+    &:focus {
+      @apply outline-none;
+    }
+  }
+}

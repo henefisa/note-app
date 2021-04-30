@@ -71,5 +71,6 @@ module.exports = (env, argv) => {
         template: "public/index.html",
       }),
     ],
+    // target: "electron-main",
   };
 };

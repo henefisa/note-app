@@ -16,12 +16,12 @@
     }
 
     .dropdown__menu {
-      @apply transform opacity-100 scale-100;
+      @apply transform opacity-100 scale-100 visible;
     }
   }
 
   &__menu {
-    @apply absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition ease-out duration-100 transform opacity-0 scale-95;
+    @apply absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all ease-out duration-100 transform opacity-0 scale-95 invisible z-10;
 
     &:not(&--reverse) {
       @apply origin-top-left left-0;
