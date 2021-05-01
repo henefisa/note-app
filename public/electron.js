@@ -1,16 +1,21 @@
-const electron = require("electron");
-const app = electron.app;
-const Menu = electron.Menu;
-const BrowserWindow = electron.BrowserWindow;
+const { ipcMain, app, Menu, BrowserWindow } = require("electron");
 const path = require("path");
 const url = require("url");
+
+const startUrl =
+  process.env.ELECTRON_START_URL ||
+  url.format({
+    pathname: path.join(__dirname, "/../build/index.html/#/"),
+    protocol: "file:",
+    slashes: true,
+  });
 
 let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 350,
     height: 600,
-    // transparent: true,
+    transparent: false,
     // resizable: false,
     // frame: false,
     webPreferences: {
@@ -20,13 +25,6 @@ function createWindow() {
     },
   });
 
-  const startUrl =
-    process.env.ELECTRON_START_URL ||
-    url.format({
-      pathname: path.join(__dirname, "/../build/index.html"),
-      protocol: "file:",
-      slashes: true,
-    });
   // Menu.setApplicationMenu(null);
   mainWindow.loadURL(startUrl);
   mainWindow.on("closed", function () {
@@ -44,4 +42,21 @@ app.on("activate", function () {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+ipcMain.handle("create-note", async (event, args) => {
+  const win = new BrowserWindow({
+    width: 350,
+    height: 600,
+    transparent: false,
+    // resizable: false,
+    // frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  });
+
+  win.loadURL(startUrl + "note");
 });

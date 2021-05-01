@@ -1,9 +1,6 @@
 import React from "react";
+import { remote, ipcRenderer } from "electron";
 
-import Note from "@/components/Note/Note";
-import Search from "@/components/Search/Search";
-import TitleBar from "@/components/TitleBar/TitleBar";
-import Button from "@/components/Button/Button";
 import {
   CloseOutlined,
   PlusOutlined,
@@ -11,14 +8,23 @@ import {
 } from "@ant-design/icons";
 
 import "./HomePage.styles.less";
-import Content from "@/components/Content/Content";
+import { Button, Note, Search, TitleBar, Content } from "@/components";
 
 const HomePage: React.FC = () => {
+  const handleNewNote = () => {
+    ipcRenderer.invoke("create-note");
+  };
+
+  const handleCloseWindow = () => {
+    const window = remote.getCurrentWindow();
+    window.close();
+  };
+
   return (
     <div className="home-page">
       <TitleBar
         left={
-          <Button ghost>
+          <Button ghost onClick={handleNewNote}>
             <PlusOutlined />
           </Button>
         }
@@ -27,7 +33,7 @@ const HomePage: React.FC = () => {
             <Button ghost>
               <SettingOutlined />
             </Button>
-            <Button ghost>
+            <Button ghost onClick={handleCloseWindow}>
               <CloseOutlined />
             </Button>
           </>
@@ -37,10 +43,10 @@ const HomePage: React.FC = () => {
         <h1 className="home-page__title">Notes</h1>
         <Search />
         <div className="notes-container">
-          <Note content="Sample note here" date="Mar 13" />
-          <Note content="Sample note here" date="Mar 13" />
-          <Note content="Sample note here" date="Mar 13" />
-          <Note content="Sample note here" date="Mar 13" />
+          <Note content="Sample note here" date="Mar 13" key="1" />
+          <Note content="Sample note here" date="Mar 13" key="2" />
+          <Note content="Sample note here" date="Mar 13" key="3" />
+          <Note content="Sample note here" date="Mar 13" key="4" />
         </div>
       </Content>
     </div>

@@ -1,10 +1,17 @@
 import React from "react";
-import HomePage from "./pages/HomePage/HomePage";
+import { HashRouter, Route, Switch } from "react-router-dom";
+import { HomePage, NotePage } from "./pages";
+import { ROUTES } from "./constants/ROUTES";
 
 const App: React.FC = () => {
   return (
     <div className="app">
-      <HomePage />
+      <HashRouter>
+        <Switch>
+          <Route path={ROUTES.HOME} component={HomePage} exact />
+          <Route path={ROUTES.NOTE} component={NotePage} exact />
+        </Switch>
+      </HashRouter>
     </div>
   );
 };
