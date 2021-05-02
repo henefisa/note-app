@@ -3,20 +3,32 @@ import { MoreOutlined } from "@ant-design/icons";
 import Dropdown from "../Dropdown/Dropdown";
 
 import "./Note.styles.less";
+import { ipcRenderer } from "electron";
 
 interface NoteProps {
+  id: string;
   content: string;
   date: string;
 }
 
-const Note: React.FC<NoteProps> = ({ content, date }) => {
+const Note: React.FC<NoteProps> = ({ id, content, date }) => {
+  const handleOpenNote = () => {
+    ipcRenderer.invoke("open-note", { id });
+  };
+
+  const handleDeleteNote = () => {
+    ipcRenderer.invoke("delete-note", { id });
+  };
+
   const menus = useMemo(() => {
     return [
       {
         title: "Open note",
+        onClick: handleOpenNote,
       },
       {
         title: "Delete note",
+        onClick: handleDeleteNote,
       },
     ];
   }, []);

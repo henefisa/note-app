@@ -9,7 +9,8 @@ const App: React.FC = () => {
       <HashRouter>
         <Switch>
           <Route path={ROUTES.HOME} component={HomePage} exact />
-          <Route path={ROUTES.NOTE} component={NotePage} exact />
+          <Route path={ROUTES.NOTE_ID} component={NotePage} exact />
+          {/* <Route path={ROUTES.NOTE} component={NotePage} exact /> */}
         </Switch>
       </HashRouter>
     </div>

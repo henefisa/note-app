@@ -6,6 +6,7 @@ import "./Dropdown.styles.less";
 
 interface DropdownItem {
   title: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 interface DropdownProps {
@@ -18,7 +19,8 @@ const Dropdown: React.FC<DropdownProps> = ({ items, children }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
-  const handleShowDropdown = () => {
+  const handleShowDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsOpen((show) => !show);
   };
 
@@ -66,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, children }) => {
         onClick={() => setIsOpen(false)}
       >
         {items.map((item, idx) => (
-          <div className="dropdown__menu-item" key={idx}>
+          <div className="dropdown__menu-item" key={idx} onClick={item.onClick}>
             {item.title}
           </div>
         ))}

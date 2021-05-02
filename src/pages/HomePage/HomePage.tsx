@@ -1,23 +1,29 @@
-import React from "react";
-import { remote, ipcRenderer } from "electron";
-
+import { Button, Content, Note, Search, TitleBar } from "@/components";
 import {
   CloseOutlined,
   PlusOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-
+import { ipcRenderer } from "electron";
+import React, { useEffect, useState } from "react";
 import "./HomePage.styles.less";
-import { Button, Note, Search, TitleBar, Content } from "@/components";
 
 const HomePage: React.FC = () => {
+  const [notes, setNotes] = useState<any>([]);
+
+  useEffect(() => {
+    (async () => {
+      const notes = await ipcRenderer.invoke("get-all-notes");
+      setNotes(notes);
+    })();
+  }, []);
+
   const handleNewNote = () => {
-    ipcRenderer.invoke("create-note");
+    ipcRenderer.invoke("new-note");
   };
 
   const handleCloseWindow = () => {
-    const window = remote.getCurrentWindow();
-    window.close();
+    ipcRenderer.invoke("close-window");
   };
 
   return (
@@ -43,10 +49,14 @@ const HomePage: React.FC = () => {
         <h1 className="home-page__title">Notes</h1>
         <Search />
         <div className="notes-container">
-          <Note content="Sample note here" date="Mar 13" key="1" />
-          <Note content="Sample note here" date="Mar 13" key="2" />
-          <Note content="Sample note here" date="Mar 13" key="3" />
-          <Note content="Sample note here" date="Mar 13" key="4" />
+          {notes.map((note) => (
+            <Note
+              id={note.id}
+              content={note.content}
+              date={note.createdAt}
+              key={note.id}
+            />
+          ))}
         </div>
       </Content>
     </div>
