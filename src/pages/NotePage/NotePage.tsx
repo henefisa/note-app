@@ -1,23 +1,31 @@
 import { Button, Content, TextArea, TitleBar } from "@/components";
+import { BROADCAST } from "@/constants/BROADCAST";
+import { notesStore } from "@/stores/notes.store";
 import {
   CloseOutlined,
   MoreOutlined,
   PlusOutlined,
-  SaveOutlined
+  SaveOutlined,
 } from "@ant-design/icons";
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import "./NotePage.styles.less";
 
-
 const NotePage: React.FC = () => {
   const [data, setData] = useState<any>();
   const { params } = useRouteMatch<{ id: string }>();
+  const bc = new BroadcastChannel(BROADCAST.NOTE);
+
+  useEffect(() => {
+    return () => {
+      bc.close();
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
-      const data = await ipcRenderer.invoke("get-note", { $id: params.id });
+      const data = await ipcRenderer.invoke("get-note", { id: params.id });
       setData(data);
     })();
   }, []);
@@ -26,22 +34,28 @@ const NotePage: React.FC = () => {
     setData({ ...data, content: e.target.value });
   };
 
+  const handleNewNote = () => {
+    // notesStore.newNote();
+  };
+
   const handleSave = () => {
-    ipcRenderer.invoke("update-note", {
-      $id: data?.id,
-      $content: data?.content,
+    notesStore.editNote({ id: data.id, content: data.content });
+    bc.postMessage({
+      type: "save",
+      id: data.id,
+      content: data.content,
     });
   };
 
   const handleClose = () => {
     ipcRenderer.invoke("close-window");
-  };  
+  };
 
   return (
     <div className="note-page">
       <TitleBar
         left={
-          <Button ghost>
+          <Button ghost onClick={handleNewNote}>
             <PlusOutlined />
           </Button>
         }

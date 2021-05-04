@@ -62,12 +62,13 @@ ipcMain.handle("new-note", async (event, args) => {
   });
 
   const data = await db.insertNote("");
-  win.loadURL(startUrl + `note/${data.$id}`);
+  win.loadURL(startUrl + `note/${data.id}`);
   return data;
 });
 
 ipcMain.handle("update-note", async (event, args) => {
-  const updated = await db.updateNote({ id: args.$id, content: args.$content });
+  const updated = await db.updateNote({ id: args.id, content: args.content });
+
   return updated;
 });
 
@@ -76,7 +77,7 @@ ipcMain.handle("delete-note", async (event, args) => {
 });
 
 ipcMain.handle("get-note", async (event, args) => {
-  const note = await db.getNote(args.$id);
+  const note = await db.getNote(args.id);
   return note;
 });
 

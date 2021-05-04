@@ -20,7 +20,6 @@ const Dropdown: React.FC<DropdownProps> = ({ items, children }) => {
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
   const handleShowDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
     setIsOpen((show) => !show);
   };
 

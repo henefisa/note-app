@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import { MoreOutlined } from "@ant-design/icons";
 import Dropdown from "../Dropdown/Dropdown";
-
-import "./Note.styles.less";
+import moment from "moment";
 import { ipcRenderer } from "electron";
+import { notesStore } from "@/stores/notes.store";
+import "./Note.styles.less";
 
 interface NoteProps {
   id: string;
@@ -17,7 +18,7 @@ const Note: React.FC<NoteProps> = ({ id, content, date }) => {
   };
 
   const handleDeleteNote = () => {
-    ipcRenderer.invoke("delete-note", { id });
+    notesStore.deleteNote(id);
   };
 
   const menus = useMemo(() => {
@@ -36,7 +37,7 @@ const Note: React.FC<NoteProps> = ({ id, content, date }) => {
   return (
     <div className="note">
       <div className="note__meta">
-        <div className="note__date">{date}</div>
+        <div className="note__date">{moment.unix(+date).format("LL")}</div>
         <div className="note__menu">
           <Dropdown items={menus}>
             <MoreOutlined />

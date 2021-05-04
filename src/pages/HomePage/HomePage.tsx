@@ -1,4 +1,6 @@
 import { Button, Content, Note, Search, TitleBar } from "@/components";
+import { BROADCAST } from "@/constants/BROADCAST";
+import { notesStore } from "@/stores/notes.store";
 import {
   CloseOutlined,
   PlusOutlined,
@@ -10,16 +12,36 @@ import "./HomePage.styles.less";
 
 const HomePage: React.FC = () => {
   const [notes, setNotes] = useState<any>([]);
+  const bc = new BroadcastChannel(BROADCAST.NOTE);
+
+  console.log(notes);
 
   useEffect(() => {
-    (async () => {
-      const notes = await ipcRenderer.invoke("get-all-notes");
-      setNotes(notes);
-    })();
+    bc.addEventListener("message", (event) => {
+      switch (event.data.type) {
+        case "save":
+          notesStore.editNote({
+            id: event.data.id,
+            content: event.data.content,
+          });
+          break;
+        default:
+          break;
+      }
+    });
+
+    return () => {
+      bc.close();
+    };
+  });
+
+  useEffect(() => {
+    notesStore.subscribe(setNotes);
+    notesStore.init();
   }, []);
 
   const handleNewNote = () => {
-    ipcRenderer.invoke("new-note");
+    notesStore.newNote();
   };
 
   const handleCloseWindow = () => {
